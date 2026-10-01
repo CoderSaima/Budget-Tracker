@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Budget</title>
+</head>
+<body style="
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+">
+    <h2>--- Budget Tracker ---</h2>
+    <form method = "POST"
+    style="
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+gap:1rem;
+">
+        {% csrf_token %}
+        <!--idr name mein views waly likhny hay-->
+        <input type="text" name="item_name" placeholder="Enter Name of Item?" required style="padding:10px; border:1px solid #eee">
+        <input type="text" name ="item_des" placeholder="Enter description" style="padding:10px; border:1px solid #eee">
+        <input type="number" step="0.01" name ="item_amount" placeholder="Enter total amount" required style="padding:10px; border:1px solid #eee">
+        <input type="number" step="0.01" name="user_income" placeholder="Enter your income" required style="padding:10px; border:1px solid #eee">
+        <input type="number" step="0.01" name="user_expenses" placeholder="Enter your expenses" required style="padding:10px; border:1px solid #eee">
+        <button onclick = window.site.reload() type="submit" style="background-color:#eee; padding:7px; border:none">Save the Budget</button>
+    </form>
+
+    <hr>
+    <div style="
+    display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+gap:1rem;">
+    <h3>Filter entries:</h3>
+    <a href="?"> Show All </a> | 
+    <a href="?type=savings"> High Savings Entry (+$1000) </a>
+</div>
+    <h3>--- Saved Entities ---<h3>
+    {% for budget in budgets %}
+    <li style="
+    display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+gap:1rem;
+    ">
+        <!--models variable names idar likhny hay-->
+        <strong>{{ budget.name }}</strong> (${{ budget.amount }}) - {{ budget.description }}<br>
+        <small>Income: ${{ budget.my_income }} | Expenses: ${{ budget.my_expenses }} | Savings: ${{ budget.total_savings }}</small><hr style="width:100%">
+    </li>
+    {% empty %}
+        <li>No entry yet. Add item first !</li>
+    {% endfor %}
+</body>
+</html>
